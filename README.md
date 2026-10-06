@@ -270,11 +270,17 @@ App 里点「复制 ADB 命令」可以一键复制这两条。
 ### 它是怎么挂到系统里的
 
 ```
-/data/adb/modules/autoskip_guard/
+/data/adb/modules/autoskip_guard/          # App 装入的就是下面三个文件
 ├── module.prop          # 模块元信息，KernelSU 管理器据此识别
 ├── service.sh           # 开机 late_start 执行一次，等系统起来后把 guard.sh 挂后台
 └── bin/guard.sh         # 真正干活的长驻循环（每 20 秒一轮）
 ```
+
+> **守护模块已独立成仓库** → [pxlwjp0425/autoskip_guard](https://github.com/pxlwjp0425/autoskip_guard)。
+> 同一份内容的发布口，额外带 `uninstall.sh`、打包脚本，以及完整的安装 / 验证 / 卸载说明；
+> 也可以从那里下 zip 手动刷入（不装 App 单独用）。
+> ⚠️ 这三个文件同时内嵌在 App 里（`GuardModule.java` 的三个文本块），
+> **改脚本要两边同步，以 App 侧模板为准**。
 
 `guard.sh` 的核心原则是**只在真的坏了的时候才动手**。因为 `settings put` 会让系统重新绑定无障碍服务（有几百毫秒闪断），正常状态下反复写反而更不稳定。所以每轮只做四件事：
 
