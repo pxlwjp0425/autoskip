@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      为什么不用带 ActionBar 的默认主题：
+      MIUI / HyperOS 把 Theme.DeviceDefault 的 ActionBar 渲染成「覆盖在内容之上」的一层
+      （实测占屏幕顶部 276px，而内容从 y=0 开始排），于是布局里的第一张卡片
+      —— 也就是顶部的服务状态卡 —— 会被标题栏整块压住，用户以为「没开启」。
+      换成 NoActionBar 后由布局自绘标题，内容从状态栏下方正常开始。
+    -->
+    <style name="AppTheme" parent="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/page_bg</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+</resources>

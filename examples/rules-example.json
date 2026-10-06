@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "apps": [
+    {
+      "id": 1,
+      "name": "示例应用A",
+      "packageName": "com.example.appa",
+      "rules": [
+        {
+          "name": "跳过开屏广告",
+          "matchType": "any",
+          "matches": ["跳过", "跳过广告", "Skip", "点击跳过"],
+          "excludes": ["跳过引导", "跳过教程", "不跳过"],
+          "activityIds": ["SplashActivity", "AdActivity", "WelcomeActivity"],
+          "action": "click",
+          "maxClick": 2,
+          "cooldown": 1500,
+          "delay": 0,
+          "enabled": true
+        },
+        {
+          "name": "关闭更新弹窗",
+          "matchType": "text",
+          "matches": ["暂不更新", "以后再说", "稍后"],
+          "action": "click",
+          "maxClick": 1,
+          "cooldown": 2000,
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "示例应用B（用控件 ID 精确定位）",
+      "packageName": "com.example.appb",
+      "rules": [
+        {
+          "name": "跳过按钮（无文字，靠 ID）",
+          "matchType": "id",
+          "matches": ["skip", "btn_skip", "ad_skip"],
+          "action": "click",
+          "maxClick": 2,
+          "cooldown": 1200,
+          "enabled": true
+        },
+        {
+          "name": "返回到首页",
+          "matchType": "text",
+          "matches": ["进入首页", "立即体验"],
+          "action": "click",
+          "maxClick": 1,
+          "cooldown": 3000,
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "正则示例",
+      "packageName": "com.example.appc",
+      "rules": [
+        {
+          "name": "匹配 跳过+秒数",
+          "matchType": "text",
+          "regex": true,
+          "matches": ["跳过\\s*\\d+", "\\d+\\s*秒?后?跳过"],
+          "action": "click",
+          "maxClick": 2,
+          "cooldown": 1500,
+          "enabled": true
+        }
+      ]
+    }
+  ]
+}

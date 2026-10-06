@@ -1,0 +1,153 @@
+{
+  "version": 2,
+  "apps": [
+    {
+      "id": -1,
+      "name": "通用（所有应用）",
+      "packageName": "*",
+      "rules": [
+        {
+          "name": "跳过开屏广告",
+          "matchType": "any",
+          "matches": ["跳过", "跳過", "Skip", "跳过广告", "点击跳过", "跳过 >", "跳过>"],
+          "excludes": ["跳过引导", "跳过教程", "跳过设置", "跳过此步骤", "不跳过", "跳过此步"],
+          "action": "click",
+          "maxClick": 2,
+          "cooldown": 1500
+        },
+        {
+          "name": "关闭广告弹窗",
+          "matchType": "desc",
+          "matches": ["关闭广告", "关闭弹窗", "关闭推广", "Close ad"],
+          "action": "click",
+          "maxClick": 1,
+          "cooldown": 2000
+        },
+        {
+          "name": "跳过按钮-无文字图标",
+          "matchType": "id",
+          "regex": true,
+          "matches": ["/ms_skipView$", "/ms_skipView_container$"],
+          "action": "click",
+          "maxClick": 3,
+          "cooldown": 800
+        }
+      ]
+    },
+    {
+      "id": 101,
+      "name": "铁路12306",
+      "packageName": "com.MobileTicket",
+      "rules": [
+        {
+          "name": "开屏广告-跳过按钮",
+          "matchType": "id",
+          "regex": true,
+          "matches": ["/tv_main_splash_skip$", "/tv_skip$"],
+          "action": "click",
+          "maxClick": 2,
+          "cooldown": 800,
+          "note": "上游规则 [vid=tv_main_splash_skip || vid=tv_skip] 因 tv_skip 只有 7 字符被转换器连坐丢弃"
+        }
+      ]
+    },
+    {
+      "id": 102,
+      "name": "小米钱包",
+      "packageName": "com.mipay.wallet",
+      "rules": [
+        {
+          "name": "开屏广告-跳过按钮",
+          "matchType": "id",
+          "regex": true,
+          "matches": ["/skip$"],
+          "action": "click",
+          "maxClick": 1,
+          "cooldown": 1200,
+          "note": "上游 [vid=skip]，因 ID 过短且无 activityIds 被丢弃"
+        }
+      ]
+    },
+    {
+      "id": 103,
+      "name": "HMS Core",
+      "packageName": "com.huawei.hwid",
+      "rules": [
+        {
+          "name": "全屏广告-关闭按钮",
+          "matchType": "id",
+          "regex": true,
+          "matches": ["/interstitial_close$"],
+          "action": "click",
+          "maxClick": 1,
+          "cooldown": 1500,
+          "note": "上游该组默认关闭（GKD 里需手动开启）"
+        }
+      ]
+    },
+    {
+      "id": 104,
+      "name": "网上国网",
+      "packageName": "com.sgcc.wsgw.cn",
+      "rules": [
+        {
+          "name": "弹窗广告-关闭",
+          "matchType": "id",
+          "regex": true,
+          "matches": ["/btn_remind_close$"],
+          "action": "click",
+          "maxClick": 1,
+          "cooldown": 1500
+        }
+      ]
+    },
+    {
+      "id": 105,
+      "name": "有道云笔记",
+      "packageName": "com.youdao.note",
+      "rules": [
+        {
+          "name": "卡片广告-关闭",
+          "matchType": "id",
+          "regex": true,
+          "matches": ["/close_ad$"],
+          "action": "click",
+          "maxClick": 1,
+          "cooldown": 1500
+        }
+      ]
+    },
+    {
+      "id": 106,
+      "name": "红果免费短剧",
+      "packageName": "com.phoenix.read",
+      "rules": [
+        {
+          "name": "关闭广告",
+          "matchType": "text",
+          "matches": ["关闭此广告", "点击关闭广告并退出小说"],
+          "action": "click",
+          "maxClick": 2,
+          "cooldown": 1200,
+          "note": "上游该组默认关闭（GKD 里需手动开启）"
+        }
+      ]
+    },
+    {
+      "id": 107,
+      "name": "转转",
+      "packageName": "com.wuba.zhuanzhuan",
+      "rules": [
+        {
+          "name": "拒绝升级/评价提示",
+          "matchType": "text",
+          "matches": ["下次再说", "残忍拒绝"],
+          "action": "click",
+          "maxClick": 1,
+          "cooldown": 2000,
+          "note": "上游因「低置信度且无 activityIds」被丢弃，这里按包名限定后启用"
+        }
+      ]
+    }
+  ]
+}

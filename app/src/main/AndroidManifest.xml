@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Android 11+ 的包可见性：要能跳到 KernelSU 管理器的授权页做引导 -->
+    <queries>
+        <package android:name="me.weishu.kernelsu" />
+    </queries>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 应用规则开关页要列出全部已安装应用（Android 11+ 默认只看得见一小部分） -->
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+    <!-- 后台保活：常驻通知 + 前台服务优先级 -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
+        android:theme="@style/AppTheme">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- 应用详情页：某个应用的规则组与逐组开关（「应用」页点整行进这里）。
+             它仍然是独立 Activity —— 详情属于「钻进去看」，用返回键退回来比留个 tab 更自然。 -->
+        <activity
+            android:name=".AppRuleActivity"
+            android:exported="false"
+            android:label="@string/title_app_list"
+            android:launchMode="singleTop" />
+
+        <service
+            android:name=".SkipService"
+            android:exported="true"
+            android:label="@string/service_label"
+            android:foregroundServiceType="specialUse"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+            <!-- Android 14+ 要求 specialUse 类型必须交代用途 -->
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="keep_alive_accessibility_service" />
+        </service>
+
+        <!--
+          root 守护脚本的「静默拉起入口」。
+          无障碍服务是系统绑定的，没法用 am 直接启动；进程被系统清掉后，
+          只剩「启动 Activity」能重建进程 —— 那会把界面糊到用户脸上。
+          所以另挂一个空壳前台服务当靶子，守护脚本拉起它即可（见 GuardService 注释）。
+        -->
+        <service
+            android:name=".GuardService"
+            android:exported="true"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="keep_alive_accessibility_service" />
+        </service>
+
+    </application>
+
+</manifest>

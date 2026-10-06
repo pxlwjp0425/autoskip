@@ -1,0 +1,38 @@
+*.iml
+.gradle/
+local.properties
+.idea/
+.DS_Store
+build/
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
+
+# ---- 签名密钥：绝不入公开仓库（一旦推上去就永远留在历史里）----
+keystore/
+*.jks
+*.keystore
+*.p12
+
+# ---- 调试 / 取证临时产物（62 MB，纯本地用）----
+_cov/
+_cov2/
+*.b64
+
+# ---- 真机取证截图（仅本地留档）----
+install-proof/
+截图-*.png
+
+# ---- Python 工具链缓存 ----
+__pycache__/
+*.pyc
+
+# ---- 第三方规则数据（含由它派生的转换产物）：授权不清，一律不入库 ----
+# 上游订阅多为「无许可证」（= 保留所有权利），个别明确声明禁止传播；
+# 派生文件同样不能随本仓库再分发。转换脚本 tools/*.py 是本项目原创，不受此限。
+# 需要数据时按 rules/README.md 的流程自行生成。
+rules/_src/
+rules/merged_gkd.json5
+rules/gkd-compat.json

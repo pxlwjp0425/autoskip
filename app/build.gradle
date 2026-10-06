@@ -1,0 +1,79 @@
+plugins {
+    id 'com.android.application'
+}
+
+def ksFile = rootProject.file('keystore/autoskip.jks')
+
+// 签名口令不入库：优先读 local.properties（已 gitignore），其次读环境变量。
+// local.properties 里需要：
+//   AUTOSKIP_STORE_PASSWORD=<你的 store 口令>
+//   AUTOSKIP_KEY_ALIAS=autoskip
+//   AUTOSKIP_KEY_PASSWORD=<你的 key 口令>   （不填则跟随 store 口令）
+def localProps = new Properties()
+def lpFile = rootProject.file('local.properties')
+if (lpFile.exists()) {
+    lpFile.withInputStream { localProps.load(it) }
+}
+def ksStorePass = localProps.getProperty('AUTOSKIP_STORE_PASSWORD') ?: System.getenv('AUTOSKIP_STORE_PASSWORD')
+def ksKeyAlias = localProps.getProperty('AUTOSKIP_KEY_ALIAS') ?: 'autoskip'
+def ksKeyPass = localProps.getProperty('AUTOSKIP_KEY_PASSWORD') ?: ksStorePass
+def canSign = ksFile.exists() && ksStorePass
+
+android {
+    namespace 'com.laopeng.autoskip'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "com.laopeng.autoskip"
+        minSdk 26
+        targetSdk 35
+        versionCode 18
+        versionName "1.7.0"
+    }
+
+    signingConfigs {
+        release {
+            if (canSign) {
+                storeFile ksFile
+                storePassword ksStorePass
+                keyAlias ksKeyAlias
+                keyPassword ksKeyPass
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (canSign) {
+                signingConfig signingConfigs.release
+            }
+        }
+        debug {
+            if (canSign) {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
+    }
+
+    packaging {
+        resources {
+            excludes += ['META-INF/*.kotlin_module']
+        }
+    }
+}
+
+dependencies {
+}

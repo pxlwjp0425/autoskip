@@ -1,0 +1,36 @@
+{
+  "_说明": "最小可用的本地规则示例。在 App 里点「导入规则文件」把这个文件选进来，或点「粘贴 JSON」把下面的内容整段贴进去。",
+  "_提示": "packageName 写 * 表示对所有应用生效，风险很高，尽量写具体包名。",
+  "apps": [
+    {
+      "name": "示例应用",
+      "packageName": "com.example.demo",
+      "rules": [
+        {
+          "name": "开屏跳过",
+          "action": "click",
+          "matchType": "text",
+          "regex": true,
+          "matches": ["^跳过$", "^跳过\\s*\\d+s?$"],
+          "excludes": ["跳过引导", "跳过教程"],
+          "activityIds": ["SplashActivity"],
+          "delay": 300,
+          "maxClick": 1,
+          "cooldown": 1500,
+          "enabled": true
+        },
+        {
+          "name": "关闭弹窗",
+          "action": "clickCenter",
+          "matchType": "any",
+          "regex": false,
+          "matches": ["关闭该广告", "我知道了"],
+          "excludes": [],
+          "maxClick": 2,
+          "cooldown": 900,
+          "enabled": true
+        }
+      ]
+    }
+  ]
+}

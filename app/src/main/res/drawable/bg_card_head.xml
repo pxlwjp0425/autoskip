@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  可折叠卡片的标题栏背景：点按有水波纹反馈，波纹用 mask 限制在 12dp 圆角内，
+  这样四个角不会溢出外层卡片（@drawable/bg_card）的圆角。
+-->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#141D9E75">
+    <item android:id="@android:id/mask">
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFFFF" />
+            <corners android:radius="12dp" />
+        </shape>
+    </item>
+</ripple>

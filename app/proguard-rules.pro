@@ -1,0 +1,3 @@
+-dontwarn android.**
+-keep class com.laopeng.autoskip.** { *; }
+-keep class org.json.** { *; }

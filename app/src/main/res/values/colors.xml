@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="brand">#FF1D9E75</color>
+    <color name="brand_dark">#FF0F6E56</color>
+    <color name="page_bg">#FFF5F6F4</color>
+    <color name="card_bg">#FFFFFFFF</color>
+    <color name="text_main">#FF1B1C1A</color>
+    <color name="text_sub">#FF6B6E68</color>
+    <color name="divider">#FFE4E6E1</color>
+    <color name="danger">#FFA32D2D</color>
+    <color name="ok">#FF1D9E75</color>
+    <color name="warn">#FFBA7517</color>
+</resources>

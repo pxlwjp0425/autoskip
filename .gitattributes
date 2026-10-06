@@ -1,0 +1,21 @@
+# 统一行尾，避免 Windows/Linux 之间整文件 diff
+* text=auto
+
+*.java   text diff=java
+*.xml    text
+*.gradle text
+*.md     text
+*.json   text
+*.py     text
+
+# 二进制
+*.png binary
+*.jpg binary
+*.jar binary
+*.jks binary
+*.apk binary
+
+# 脚本必须 LF，否则在 Linux/CI 上跑不起来
+*.sh  text eol=lf
+gradlew text eol=lf
+*.bat text eol=crlf
